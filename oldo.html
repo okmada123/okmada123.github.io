@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Oldo</title>
+        <style>
+            thead {
+                background-color: lightgray;
+            }
+            td {
+                text-align: center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <table id="tabulka">
+            <thead>
+                <tr>
+                    <th>Znacka</th>
+                    <th>Farba</th>
+                    <th>Rok</th>
+                    <th>Operacia</th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td><input id="znacka" type="text"></td>
+                <td><input id="farba" type="text"></td>
+                <td><input id="rok" type="text"></td>
+                <td><button onclick=pridat()>Pridat</button></td>
+            </tr>
+            
+        </table>
+        <script language="javascript" type="text/javascript">
+            var tab = document.getElementById("tabulka");
+            var pocet_riadkov = 1;
+
+            function pridat() {
+                var riadok = tab.insertRow(pocet_riadkov);
+
+                //kontrola duplicit
+                if (pocet_riadkov > 1) {    //nekontroluje pridanie prveho zaznamu do tabulky
+                    if (mametouzvtabulke(document.getElementById("znacka").value)) {
+                        alert("Nesmies pridat duplicity!");
+                        return;
+                    }
+                }
+                //zapocitame, ze sme pridali riadok
+                pocet_riadkov++;
+
+                //zapisanie znacky, farby a roku
+                var stlpec1 = riadok.insertCell(0);
+                var stlpec2 = riadok.insertCell(1);
+                var stlpec3 = riadok.insertCell(2);
+                stlpec1.innerHTML = document.getElementById("znacka").value;
+                stlpec2.innerHTML = document.getElementById("farba").value;
+                stlpec3.innerHTML = document.getElementById("rok").value;
+
+                //vytvorenie a zapisanie tlacitiek do posledneho stlpca
+                var stlpec4 = riadok.insertCell(3);
+
+                var upravit = document.createElement("button");
+                upravit.id = document.getElementById("znacka").value;
+                upravit.innerHTML = "Upravit";
+                //upravit.onclick TODO
+
+                var zmazat = document.createElement("button");
+                zmazat.id = document.getElementById("znacka").value;
+                zmazat.innerHTML = "Zmazat";
+                zmazat.onclick = function() {
+                    for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                        var znacka = r.cells[0].innerHTML; 
+                        if (znacka == this.id) {
+                            tab.deleteRow(i);
+                            pocet_riadkov--;
+                            break;
+                        }
+                    }
+
+                }
+
+
+                stlpec4.appendChild(upravit);
+                stlpec4.appendChild(zmazat);
+            }
+
+            function mametouzvtabulke(nazov) {
+                for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                    var str = r.cells[0].innerHTML;
+                    if (nazov == str) return 1;
+                }
+                return 0;
+            }
+
+        </script>
+    </body>
+</html>
