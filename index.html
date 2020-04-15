@@ -36,6 +36,11 @@
             var pocet_riadkov = 1;
 
             function pridat() {
+                //kontrola prazdnych vstupov
+                if (document.getElementById("znacka").value == "" || document.getElementById("farba").value == "" || document.getElementById("rok").value == "") {
+                    alert("Vsetky polia musia byt vyplnene");
+                    return;
+                }
                 //kontrola duplicit
                 if (pocet_riadkov > 1) {    //nekontroluje pridanie prveho zaznamu do tabulky
                     if (mametouzvtabulke(document.getElementById("znacka").value)) {
