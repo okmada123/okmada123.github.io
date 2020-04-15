@@ -36,8 +36,6 @@
             var pocet_riadkov = 1;
 
             function pridat() {
-                var riadok = tab.insertRow(pocet_riadkov);
-
                 //kontrola duplicit
                 if (pocet_riadkov > 1) {    //nekontroluje pridanie prveho zaznamu do tabulky
                     if (mametouzvtabulke(document.getElementById("znacka").value)) {
@@ -45,7 +43,8 @@
                         return;
                     }
                 }
-                //zapocitame, ze sme pridali riadok
+                //pridame riadok a zapocitame, ze sme pridali riadok
+                var riadok = tab.insertRow(pocet_riadkov);
                 pocet_riadkov++;
 
                 //zapisanie znacky, farby a roku
@@ -56,16 +55,169 @@
                 stlpec2.innerHTML = document.getElementById("farba").value;
                 stlpec3.innerHTML = document.getElementById("rok").value;
 
+                test(riadok);
+
+                // //vytvorenie a zapisanie tlacitiek do posledneho stlpca
+                // var stlpec4 = riadok.insertCell(3);
+
+                // var upravit = document.createElement("button");
+                // upravit.id = document.getElementById("znacka").value;
+                // upravit.innerHTML = "Upravit";
+                // upravit.onclick = function() {
+                //     //zisti v ktorom riadku sme
+                //     var i;
+                //     for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                //         var znacka = r.cells[0].innerHTML; 
+                //         if (znacka == this.id) {
+                //             break;
+                //         }
+                //     }
+                //     row = tab.rows[i];
+
+                //     //znacka
+                //     var uprav_znacku = document.createElement("INPUT");
+                //     uprav_znacku.setAttribute("type", "text");
+                //     uprav_znacku.id = "uprav_znacku";
+                //     uprav_znacku.value = row.cells[0].innerHTML;
+                //     row.cells[0].innerHTML = "";
+                //     row.cells[0].appendChild(uprav_znacku);
+                //     //farba
+                //     var uprav_farbu = document.createElement("INPUT");
+                //     uprav_farbu.setAttribute("type", "text");
+                //     uprav_farbu.id = "uprav_farbu";
+                //     uprav_farbu.value = row.cells[1].innerHTML;
+                //     row.cells[1].innerHTML = "";
+                //     row.cells[1].appendChild(uprav_farbu);
+                //     //rok
+                //     var uprav_rok = document.createElement("INPUT");
+                //     uprav_rok.setAttribute("type", "text");
+                //     uprav_rok.id = "uprav_rok";
+                //     uprav_rok.value = row.cells[2].innerHTML;
+                //     row.cells[2].innerHTML = "";
+                //     row.cells[2].appendChild(uprav_rok);
+                //     //tlacitko
+                //     var uloz = document.createElement("button");
+                //     uloz.innerHTML = "Uloz";
+                //     uloz.onclick = function() {
+                //         //skontrolujeme duplicity
+                //         if (mametouzvtabulke(document.getElementById("uprav_znacku").value)) {
+                //             alert("Zakaz pridavat duplicity");
+                //         }
+                //         else {
+                //             //zapiseme vsetky hodnoty naspat
+                //             var str = document.getElementById("uprav_znacku").value;
+                //             row.cells[0].innerHTML = "" + str;
+                //             str = document.getElementById("uprav_farbu").value;
+                //             row.cells[1].innerHTML = "" + str;
+                //             str = document.getElementById("uprav_rok").value;
+                //             row.cells[2].innerHTML = "" + str;
+
+                //             //a pridame naspat tlacitka
+                //             row.cells[3].innerHTML = "";
+                //             test();
+                //         }
+                //     }
+                //     row.cells[3].innerHTML = "";
+                //     row.cells[3].appendChild(uloz);
+                // }
+
+                // var zmazat = document.createElement("button");
+                // zmazat.id = document.getElementById("znacka").value;
+                // zmazat.innerHTML = "Zmazat";
+                // zmazat.onclick = function() {
+                //     for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                //         var znacka = r.cells[0].innerHTML; 
+                //         if (znacka == this.id) {
+                //             tab.deleteRow(i);
+                //             pocet_riadkov--;
+                //             break;
+                //         }
+                //     }
+                // }
+
+
+                //stlpec4.appendChild(upravit);
+                //stlpec4.appendChild(zmazat);
+            }
+
+            function mametouzvtabulke(nazov) {
+                for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                    var str = r.cells[0].innerHTML;
+                    if (nazov == str) return 1;
+                }
+                return 0;
+            }
+
+            function test(ktory_riadok) {
                 //vytvorenie a zapisanie tlacitiek do posledneho stlpca
-                var stlpec4 = riadok.insertCell(3);
+                var stlpec4 = ktory_riadok.insertCell(3);
 
                 var upravit = document.createElement("button");
-                upravit.id = document.getElementById("znacka").value;
+                //upravit.id = document.getElementById("znacka").value;
+                upravit.id = ktory_riadok.cells[0].innerHTML;
                 upravit.innerHTML = "Upravit";
-                //upravit.onclick TODO
+                upravit.onclick = function() {
+                    //zisti v ktorom riadku sme
+                    var i;
+                    for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
+                        var znacka = r.cells[0].innerHTML; 
+                        if (znacka == this.id) {
+                            break;
+                        }
+                    }
+                    alert(i);
+                    row = tab.rows[i];
+
+                    //znacka
+                    var uprav_znacku = document.createElement("INPUT");
+                    uprav_znacku.setAttribute("type", "text");
+                    uprav_znacku.id = "uprav_znacku";
+                    uprav_znacku.value = row.cells[0].innerHTML;
+                    row.cells[0].innerHTML = "";
+                    row.cells[0].appendChild(uprav_znacku);
+                    //farba
+                    var uprav_farbu = document.createElement("INPUT");
+                    uprav_farbu.setAttribute("type", "text");
+                    uprav_farbu.id = "uprav_farbu";
+                    uprav_farbu.value = row.cells[1].innerHTML;
+                    row.cells[1].innerHTML = "";
+                    row.cells[1].appendChild(uprav_farbu);
+                    //rok
+                    var uprav_rok = document.createElement("INPUT");
+                    uprav_rok.setAttribute("type", "text");
+                    uprav_rok.id = "uprav_rok";
+                    uprav_rok.value = row.cells[2].innerHTML;
+                    row.cells[2].innerHTML = "";
+                    row.cells[2].appendChild(uprav_rok);
+                    //tlacitko
+                    var uloz = document.createElement("button");
+                    uloz.innerHTML = "Uloz";
+                    uloz.onclick = function() {
+                        //skontrolujeme duplicity
+                        if (mametouzvtabulke(document.getElementById("uprav_znacku").value)) {
+                            alert("Zakaz pridavat duplicity");
+                        }
+                        else {
+                            //zapiseme vsetky hodnoty naspat
+                            var str = document.getElementById("uprav_znacku").value;
+                            row.cells[0].innerHTML = "" + str;
+                            str = document.getElementById("uprav_farbu").value;
+                            row.cells[1].innerHTML = "" + str;
+                            str = document.getElementById("uprav_rok").value;
+                            row.cells[2].innerHTML = "" + str;
+
+                            //a pridame naspat tlacitka
+                            row.cells[3].innerHTML = "";
+                            test(row);
+                        }
+                    }
+                    row.cells[3].innerHTML = "";
+                    row.cells[3].appendChild(uloz);
+                }
 
                 var zmazat = document.createElement("button");
-                zmazat.id = document.getElementById("znacka").value;
+                //zmazat.id = document.getElementById("znacka").value;
+                zmazat.id = ktory_riadok.cells[0].innerHTML;
                 zmazat.innerHTML = "Zmazat";
                 zmazat.onclick = function() {
                     for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
@@ -76,20 +228,10 @@
                             break;
                         }
                     }
-
                 }
-
 
                 stlpec4.appendChild(upravit);
                 stlpec4.appendChild(zmazat);
-            }
-
-            function mametouzvtabulke(nazov) {
-                for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
-                    var str = r.cells[0].innerHTML;
-                    if (nazov == str) return 1;
-                }
-                return 0;
             }
 
         </script>
