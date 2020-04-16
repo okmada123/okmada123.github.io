@@ -9,10 +9,16 @@
             td {
                 text-align: center;
             }
-
+            .search {
+                padding: 30px;
+            }
         </style>
     </head>
     <body>
+        <div class="search">
+            <input id="search" type="text"><button onclick=search()>Vyhladat polozku</button>
+        </div>
+
         <table id="tabulka">
             <thead>
                 <tr>
@@ -31,6 +37,9 @@
             </tr>
             
         </table>
+
+
+
         <script language="javascript" type="text/javascript">
             var tab = document.getElementById("tabulka");
             var pocet_riadkov = 1;
@@ -43,7 +52,7 @@
                 }
                 //kontrola duplicit
                 if (pocet_riadkov > 1) {    //nekontroluje pridanie prveho zaznamu do tabulky
-                    if (mametouzvtabulke(document.getElementById("znacka").value)) {
+                    if (mametouzvtabulke(document.getElementById("znacka").value) != -1) {
                         alert("Nesmies pridat duplicity!");
                         return;
                     }
@@ -66,12 +75,15 @@
                 pridaj_tlacidla(riadok);
             }
 
+            //funkcia prehlada tabulku a hlada, ci tam mame zaznam s nazvom, ktory zadame ako parameter
             function mametouzvtabulke(nazov) {
                 for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
                     var str = r.cells[0].innerHTML;
-                    if (nazov == str) return 1;
+                    //ak ho najde, vrati riadok, v ktorom sa nachadza
+                    if (nazov == str) return i;
                 }
-                return 0;
+                //inak vrati -1
+                return -1;
             }
 
             //funkcia prida tlacidla na zmazanie a upravu do riadka, ktory zadame ako argument funkcie
@@ -119,7 +131,7 @@
                     uloz.innerHTML = "Uloz";
                     uloz.onclick = function() {
                         //skontrolujeme duplicity
-                        if (mametouzvtabulke(document.getElementById("uprav_znacku").value)) {
+                        if (mametouzvtabulke(document.getElementById("uprav_znacku").value) != -1) {
                             alert("Zakaz pridavat duplicity");
                         }
                         else {
@@ -158,6 +170,28 @@
                 stlpec4.appendChild(zmazat);
             }
 
+            //funkcia vyhlada zadanu polozku v zozname
+            function search() {
+                //najprv vycisti riadok z predosleho hladania (zmeni jeho farbu na defaultnu)
+                for (i = 0; i < pocet_riadkov; i++) {
+                    for (j = 0; j < 3; j++) {
+                        tab.rows[i].cells[j].style.backgroundColor = null;
+                    }
+                }
+                //potom hladame prvok s nazvom aky sme zadali
+                var nazov = document.getElementById("search").value;
+                if ((i=mametouzvtabulke(nazov)) != -1) {
+                    //ak ho najdeme, zvyraznime pozadie buniek
+                    for (j = 0; j < 3; j++) {
+                        tab.rows[i].cells[j].style.backgroundColor = "blue";
+                    }
+                }
+                else alert("nie je to v tabulke");
+                document.getElementById("search").value = "";
+            }
+
         </script>
+
+
     </body>
 </html>
