@@ -43,13 +43,15 @@
         <script language="javascript" type="text/javascript">
             var tab = document.getElementById("tabulka");
             var pocet_riadkov = 1;
+            var pole_auta = [];
 
             function pridat() {
                 //kontrola prazdnych vstupov
                 if (document.getElementById("znacka").value == "" || document.getElementById("farba").value == "" || document.getElementById("rok").value == "") {
                     alert("Vsetky polia musia byt vyplnene");
                     return;
-                }
+                }                
+
                 //kontrola duplicit
                 if (pocet_riadkov > 1) {    //nekontroluje pridanie prveho zaznamu do tabulky
                     if (mametouzvtabulke(document.getElementById("znacka").value) != -1) {
@@ -57,29 +59,40 @@
                         return;
                     }
                 }
+
+                //ak je novy zaznam legitimny, vytvorime objekt auto s vlastnostami znacka, farba a rok
+                var auto = {};
+                auto.znacka = document.getElementById("znacka").value;
+                auto.farba = document.getElementById("farba").value;
+                auto.rok = document.getElementById("rok").value;
+                //a zmazeme hodnotu v text input
+                document.getElementById("znacka").value = "";
+                document.getElementById("farba").value = "";
+                document.getElementById("rok").value = "";
+
                 //pridame riadok a zapocitame, ze sme pridali riadok
                 var riadok = tab.insertRow(pocet_riadkov);
                 pocet_riadkov++;
 
-                //zapisanie znacky, farby a roku
+                //zapisanie znacky, farby a roku do tabulky
                 var stlpec1 = riadok.insertCell(0);
                 var stlpec2 = riadok.insertCell(1);
                 var stlpec3 = riadok.insertCell(2);
-                stlpec1.innerHTML = document.getElementById("znacka").value;
-                document.getElementById("znacka").value = "";
-                stlpec2.innerHTML = document.getElementById("farba").value;
-                document.getElementById("farba").value = "";
-                stlpec3.innerHTML = document.getElementById("rok").value;
-                document.getElementById("rok").value = "";
-
+                stlpec1.innerHTML = auto.znacka;
+                stlpec2.innerHTML = auto.farba;
+                stlpec3.innerHTML = auto.rok;
+                //pridanie kontrolnych tlacidiel do tabulky
                 pridaj_tlacidla(riadok);
+
+                //pridanie auta do pola
+                pole_auta.push(auto);
             }
 
-            //funkcia prehlada tabulku a hlada, ci tam mame zaznam s nazvom, ktory zadame ako parameter
+            //funkcia prehlada pole a hlada, ci tam mame zaznam s nazvom, ktory zadame ako parameter
             function mametouzvtabulke(nazov) {
-                for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
-                    var str = r.cells[0].innerHTML;
-                    //ak ho najde, vrati riadok, v ktorom sa nachadza
+                for (i = 0; i < pole_auta.length; i++) {
+                    var str = pole_auta[i].znacka;
+                    //ak ho najde, index prvku pola, v ktorom sa nachadza
                     if (nazov == str) return i;
                 }
                 //inak vrati -1
@@ -156,13 +169,14 @@
                 zmazat.id = ktory_riadok.cells[0].innerHTML;
                 zmazat.innerHTML = "Zmazat";
                 zmazat.onclick = function() {
-                    for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
-                        var znacka = r.cells[0].innerHTML; 
-                        if (znacka == this.id) {
-                            tab.deleteRow(i);
-                            pocet_riadkov--;
-                            break;
-                        }
+                    var index = mametouzvtabulke(this.id);
+                    if (index != -1) {
+                        //zmazeme riadok z tabulky
+                        tab.deleteRow(index + 1);
+                        pocet_riadkov--;
+
+                        //zmazeme toto auto z pola
+                        pole_auta.splice(index, 1);
                     }
                 }
 
