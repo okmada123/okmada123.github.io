@@ -109,14 +109,8 @@
                 upravit.innerHTML = "Upravit";
                 upravit.onclick = function() {
                     //zisti v ktorom riadku sme
-                    var i;
-                    for (i = 1; r = tab.rows[i], i < pocet_riadkov; i++) {
-                        var znacka = r.cells[0].innerHTML; 
-                        if (znacka == this.id) {
-                            break;
-                        }
-                    }
-                    row = tab.rows[i];
+                    var index = mametouzvtabulke(this.id);                    
+                    row = tab.rows[i+1];
 
                     //znacka
                     var uprav_znacku = document.createElement("INPUT");
