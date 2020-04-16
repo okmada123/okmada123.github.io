@@ -193,6 +193,12 @@
                     }
                 }
 
+                //kontrola prazdneho vstupu
+                if (document.getElementById("search").value == "") {
+                    alert("Nemozes hladat prazdny vstup");
+                    return;
+                }
+
                 //potom hladame prvok s nazvom aky sme zadali
                 var index = mametouzvtabulke(document.getElementById("search").value);
                 if (index != -1) {
