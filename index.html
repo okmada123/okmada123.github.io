@@ -116,21 +116,22 @@
                     var uprav_znacku = document.createElement("INPUT");
                     uprav_znacku.setAttribute("type", "text");
                     uprav_znacku.id = "uprav_znacku";
-                    uprav_znacku.value = row.cells[0].innerHTML;
+                    uprav_znacku.value = pole_auta[index].znacka;
+                    pole_auta[index].znacka = ""; //kvoli tomu, aby sme mohli pridat naspat nezmeneny nazov auta
                     row.cells[0].innerHTML = "";
                     row.cells[0].appendChild(uprav_znacku);
                     //farba
                     var uprav_farbu = document.createElement("INPUT");
                     uprav_farbu.setAttribute("type", "text");
                     uprav_farbu.id = "uprav_farbu";
-                    uprav_farbu.value = row.cells[1].innerHTML;
+                    uprav_farbu.value = pole_auta[index].farba;
                     row.cells[1].innerHTML = "";
                     row.cells[1].appendChild(uprav_farbu);
                     //rok
                     var uprav_rok = document.createElement("INPUT");
                     uprav_rok.setAttribute("type", "text");
                     uprav_rok.id = "uprav_rok";
-                    uprav_rok.value = row.cells[2].innerHTML;
+                    uprav_rok.value = pole_auta[index].rok;
                     row.cells[2].innerHTML = "";
                     row.cells[2].appendChild(uprav_rok);
                     //tlacitko
