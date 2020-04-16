@@ -44,6 +44,7 @@
             var tab = document.getElementById("tabulka");
             var pocet_riadkov = 1;
             var pole_auta = [];
+            var upravujeme = false;
 
             function pridat() {
                 //kontrola prazdnych vstupov
@@ -108,6 +109,12 @@
                 upravit.id = ktory_riadok.cells[0].innerHTML;
                 upravit.innerHTML = "Upravit";
                 upravit.onclick = function() {
+                    //skontroluje, ci nahodou uz neupravujeme
+                    if (upravujeme) {
+                        alert("Prosim najprv ukonci zacatu upravu");
+                        return;
+                    }
+                    else upravujeme = !upravujeme;
                     //zisti v ktorom riadku sme
                     var index = mametouzvtabulke(this.id);                    
                     row = tab.rows[i+1];
@@ -159,6 +166,9 @@
                             //a pridame naspat tlacitka
                             row.cells[3].innerHTML = "";
                             pridaj_tlacidla(row);
+
+                            //ukoncime upravu
+                            upravujeme = !upravujeme;
                         }
                     }
                     row.cells[3].innerHTML = "";
