@@ -138,18 +138,23 @@
                     var uloz = document.createElement("button");
                     uloz.innerHTML = "Uloz";
                     uloz.onclick = function() {
+                        //skontrolujeme prazdne inputy
+                        if (document.getElementById("uprav_znacku").value == "" || document.getElementById("uprav_farbu").value == "" || document.getElementById("uprav_rok").value == "") {
+                            alert("Vsetky polia musia byt vyplnene");
+                            return;
+                        }   
                         //skontrolujeme duplicity
                         if (mametouzvtabulke(document.getElementById("uprav_znacku").value) != -1) {
                             alert("Zakaz pridavat duplicity");
                         }
                         else {
                             //zapiseme vsetky hodnoty naspat
-                            var str = document.getElementById("uprav_znacku").value;
-                            row.cells[0].innerHTML = "" + str;
-                            str = document.getElementById("uprav_farbu").value;
-                            row.cells[1].innerHTML = "" + str;
-                            str = document.getElementById("uprav_rok").value;
-                            row.cells[2].innerHTML = "" + str;
+                            pole_auta[index].znacka = document.getElementById("uprav_znacku").value;
+                            row.cells[0].innerHTML = "" + pole_auta[index].znacka;
+                            pole_auta[index].farba = document.getElementById("uprav_farbu").value;
+                            row.cells[1].innerHTML = "" + pole_auta[index].farba;
+                            pole_auta[index].rok = document.getElementById("uprav_rok").value;
+                            row.cells[2].innerHTML = "" + pole_auta[index].rok;
 
                             //a pridame naspat tlacitka
                             row.cells[3].innerHTML = "";
