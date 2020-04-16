@@ -192,15 +192,18 @@
                         tab.rows[i].cells[j].style.backgroundColor = null;
                     }
                 }
+
                 //potom hladame prvok s nazvom aky sme zadali
-                var nazov = document.getElementById("search").value;
-                if ((i=mametouzvtabulke(nazov)) != -1) {
+                var index = mametouzvtabulke(document.getElementById("search").value);
+                if (index != -1) {
                     //ak ho najdeme, zvyraznime pozadie buniek
                     for (j = 0; j < 3; j++) {
-                        tab.rows[i].cells[j].style.backgroundColor = "blue";
+                        tab.rows[index+1].cells[j].style.backgroundColor = "blue";
                     }
                 }
                 else alert("nie je to v tabulke");
+                
+                //vycisti text input
                 document.getElementById("search").value = "";
             }
 
