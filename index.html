@@ -46,6 +46,13 @@
             var pole_auta = [];
             var upravujeme = false;
 
+            //nie som si isty ci ma byt na zaciatku nieco v zozname, ale nepocital som s tym
+            //tak to spravim iba takymto "dirty" sposobom
+            document.getElementById("znacka").value = "Fiat";
+            document.getElementById("farba").value = "Zelena";
+            document.getElementById("rok").value = "2006";
+            pridat();
+
             function pridat() {
                 //kontrola prazdnych vstupov
                 if (document.getElementById("znacka").value == "" || document.getElementById("farba").value == "" || document.getElementById("rok").value == "") {
@@ -58,6 +65,13 @@
                     if (mametouzvtabulke(document.getElementById("znacka").value) != -1) {
                         alert("Nesmies pridat duplicity!");
                         return;
+                    }
+                }
+
+                //po pridani sa resetuje zvyraznenie z vyhladavania:
+                for (i = 0; i < pocet_riadkov; i++) {
+                    for (j = 0; j < 3; j++) {
+                        tab.rows[i].cells[j].style.backgroundColor = null;
                     }
                 }
 
@@ -115,12 +129,21 @@
                         return;
                     }
                     else upravujeme = !upravujeme;
+
+                    //pri zacati upravovania sa resetuje zvyraznenie z vyhladavania:
+                    for (i = 0; i < pocet_riadkov; i++) {
+                        for (j = 0; j < 3; j++) {
+                            tab.rows[i].cells[j].style.backgroundColor = null;
+                        }
+                    }
+
                     //zisti v ktorom riadku sme
                     var index = mametouzvtabulke(this.id);                    
                     row = tab.rows[i+1];
 
                     //znacka
                     var uprav_znacku = document.createElement("INPUT");
+                    uprav_znacku.style.backgroundColor = "aqua";
                     uprav_znacku.setAttribute("type", "text");
                     uprav_znacku.id = "uprav_znacku";
                     uprav_znacku.value = pole_auta[index].znacka;
@@ -129,6 +152,7 @@
                     row.cells[0].appendChild(uprav_znacku);
                     //farba
                     var uprav_farbu = document.createElement("INPUT");
+                    uprav_farbu.style.backgroundColor = "aqua";
                     uprav_farbu.setAttribute("type", "text");
                     uprav_farbu.id = "uprav_farbu";
                     uprav_farbu.value = pole_auta[index].farba;
@@ -136,6 +160,7 @@
                     row.cells[1].appendChild(uprav_farbu);
                     //rok
                     var uprav_rok = document.createElement("INPUT");
+                    uprav_rok.style.backgroundColor = "aqua";
                     uprav_rok.setAttribute("type", "text");
                     uprav_rok.id = "uprav_rok";
                     uprav_rok.value = pole_auta[index].rok;
@@ -144,6 +169,7 @@
                     //tlacitko
                     var uloz = document.createElement("button");
                     uloz.innerHTML = "Uloz";
+                    uloz.id = "uloz";
                     uloz.onclick = function() {
                         //skontrolujeme prazdne inputy
                         if (document.getElementById("uprav_znacku").value == "" || document.getElementById("uprav_farbu").value == "" || document.getElementById("uprav_rok").value == "") {
@@ -207,6 +233,11 @@
                 if (document.getElementById("search").value == "") {
                     alert("Nemozes hladat prazdny vstup");
                     return;
+                }
+
+                //ak momentalne je nieco upravovane, tak ulozime tuto upravu
+                if (upravujeme) {
+                    document.getElementById("uloz").click();
                 }
 
                 //potom hladame prvok s nazvom aky sme zadali
